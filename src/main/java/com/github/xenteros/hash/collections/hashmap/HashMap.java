@@ -18,7 +18,7 @@ class HashMap<K, V> {
 
     public V get(K key) {
         return getEntry(key)
-                .map(Entry::getValue)
+                .map(MyEntry::getValue)
                 .orElse(null);
     }
 
@@ -31,7 +31,7 @@ class HashMap<K, V> {
             return false;
         }
 
-        Set<Entry<K,V>> bucketSet = (Set<Entry<K, V>>) table[bucket];
+        Set<MyEntry<K,V>> bucketSet = (Set<MyEntry<K, V>>) table[bucket];
         return bucketSet.stream()
                 .anyMatch(e -> e.getKey().equals(key));
     }
@@ -41,28 +41,28 @@ class HashMap<K, V> {
         int bucket = Math.abs(hash % table.length);
 
         if (table[bucket] == null) {
-            table[bucket] = new HashSet<Entry<K,V>>();
+            table[bucket] = new HashSet<MyEntry<K,V>>();
         }
 
-        Set<Entry<K,V>> bucketSet = (Set<Entry<K, V>>) table[bucket];
+        Set<MyEntry<K,V>> bucketSet = (Set<MyEntry<K, V>>) table[bucket];
 
         if (this.containsKey(key)) {
             getEntry(key).ifPresent(entry -> {
                 entry.setValue(value);
             });
         } else {
-            bucketSet.add(new Entry<>(key, value));
+            bucketSet.add(new MyEntry<>(key, value));
         }
     }
 
-    private Optional<Entry<K, V>> getEntry(K key) {
+    private Optional<MyEntry<K, V>> getEntry(K key) {
         int hash = key.hashCode();
         int bucket = Math.abs(hash % table.length);
 
         if (table[bucket] == null) {
             return Optional.empty();
         }
-        Set<Entry<K,V>> bucketSet = (Set<Entry<K, V>>) table[bucket];
+        Set<MyEntry<K,V>> bucketSet = (Set<MyEntry<K, V>>) table[bucket];
         return bucketSet.stream()
                 .filter(entry -> entry.getKey().equals(key))
                 .findFirst();

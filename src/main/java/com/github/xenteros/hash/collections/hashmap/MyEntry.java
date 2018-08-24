@@ -1,11 +1,11 @@
 package com.github.xenteros.hash.collections.hashmap;
 
-class Entry<K, V> {
+class MyEntry<K, V> {
 
     private K key;
     private V value;
 
-    public Entry(K key, V value) {
+    public MyEntry(K key, V value) {
         this.key = key;
         this.value = value;
     }
@@ -34,5 +34,10 @@ class Entry<K, V> {
     @Override
     public boolean equals(Object obj) {
         return key.equals(obj);
+    }
+
+    @Override
+    public String toString() {
+        return key.toString() + ":" + value.toString();
     }
 }
